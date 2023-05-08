@@ -10,7 +10,9 @@ public interface ProductRepositoryApi {
 
     Product getProduct(long id);
 
-    boolean updateProduct(Product product, Long id);
+    boolean replaceProduct(Product product);
+
+    boolean updateProduct(Product product);
 
     Long addProduct(Product product);
 

@@ -3,10 +3,7 @@ package com.example.springbootrestservices.repository;
 import com.example.springbootrestservices.model.Product;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.*;
 @Repository
@@ -36,10 +33,25 @@ public class ProductRepositoryImpl implements ProductRepositoryApi {
     }
 
     @Override
-    public boolean updateProduct(Product newProduct, Long id) {
+    public boolean replaceProduct(Product newProduct) {
         Optional<Product> filteredProduct = productList
                 .stream()
-                .filter(product -> Objects.equals(product.getId(), id))
+                .filter(product -> Objects.equals(product.getId(), newProduct.getId()))
+                .findFirst();
+        if (filteredProduct.isPresent()) {
+            int index = productList.indexOf(filteredProduct.get());
+            productList.set(index, newProduct);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateProduct(Product newProduct) {
+        Optional<Product> filteredProduct = productList
+                .stream()
+                .filter(product -> Objects.equals(product.getId(), newProduct.getId()))
                 .findFirst();
         if (filteredProduct.isPresent()) {
             filteredProduct.get().setName(newProduct.getName());

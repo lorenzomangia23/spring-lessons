@@ -35,9 +35,19 @@ public class RestClient {
         return mapper.readValue(response.body(), Product.class);
     }
 
-    public boolean updateProduct(Product product, long id) throws URISyntaxException, IOException, InterruptedException {
+    public boolean replaceProduct(Product product) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/product/update/" + id))
+                .uri(new URI(BASE_URL + "/product/replace/"))
+                .headers("Accept", "application/json", "Content-type", "application/json")
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(product)))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return mapper.readValue(response.body(), Boolean.class);
+    }
+
+    public boolean updateProduct(Product product) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(BASE_URL + "/product/update/"))
                 .headers("Accept", "application/json", "Content-type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(product)))
                 .build();

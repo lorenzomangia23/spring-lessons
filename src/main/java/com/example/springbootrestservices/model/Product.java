@@ -3,7 +3,9 @@ package com.example.springbootrestservices.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Product {
+import java.util.Objects;
+
+public class Product implements Comparable{
     Long id;
     String name;
 
@@ -29,5 +31,24 @@ public class Product {
     }
     public String toString() {
         return "Id:" + this.id + ", Name: " + this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Product e = (Product) o;
+        return this.getId().compareTo(e.getId());
     }
 }

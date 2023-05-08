@@ -22,9 +22,14 @@ public class ProductController {
         return productRepositoryApi.getProduct(id);
     }
 
-    @PutMapping("/product/update/{id}")
-    public boolean updateProduct(@RequestBody Product product, @PathVariable long id) {
-        return productRepositoryApi.updateProduct(product, id);
+    @PatchMapping("/product/replace/")
+    public boolean replaceProduct(@RequestBody Product product) {
+        return productRepositoryApi.replaceProduct(product);
+    }
+
+    @PutMapping("/product/update/")
+    public boolean updateProduct(@RequestBody Product product) {
+        return productRepositoryApi.updateProduct(product);
     }
 
     @PostMapping("/product/add")
