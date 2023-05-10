@@ -1,95 +1,108 @@
 package com.example.springbootrestservices.service;
 
-import com.example.springbootrestservices.model.Product;
+import com.example.springbootrestservices.entity.Product;
+import com.example.springbootrestservices.model.ProductDto;
+import com.example.springbootrestservices.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 import static org.junit.Assert.*;
 @Service
 public class ProductServiceImpl implements ProductServiceApi {
 
-    private final List<Product> productList;
+    @Autowired
+    ProductRepository productRepository;
 
-    public ProductServiceImpl() {
-        productList = new ArrayList<>();
-        productList.add(new Product(1L, "Pane"));
-        productList.add(new Product(2L, "Pasta"));
-        productList.add(new Product(3L, "Formaggio"));
-    }
     @Override
-    public List<Product> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
+        List<Product> productList = getAllProductsFromRepo();
         System.out.println("GET ALL Service - Product List: " + productList);
-        return productList;
+        return mapProductListToProductDtoList(productList);
     }
 
     @Override
-    public Product getProduct(long id) {
-        List<Product> filteredProducts = productList
+    public ProductDto getProduct(long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct.isPresent()) {
+            System.out.println("GET Service - Product: " + optionalProduct.get());
+            return mapProductToProductDto(optionalProduct.get());
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean replaceProduct(ProductDto newProduct) {
+        Optional<Product> optionalProduct =  productRepository.findById(newProduct.getId());
+        if(optionalProduct.isPresent()) {
+            Product product = mapProductDtoToProduct(newProduct);
+            product.setId(newProduct.getId());
+            productRepository.save(product);
+            System.out.println("PUT Service - Product List: " + getAllProductsFromRepo());
+            return true;
+        } else {
+            System.out.println("PUT Service - Product List: " + getAllProductsFromRepo());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateProduct(Long id, int quantity) {
+        Optional<Product> optionalProduct =  productRepository.findById(id);
+        if(optionalProduct.isPresent()) {
+            optionalProduct.get().setQuantity(quantity);
+            productRepository.save((optionalProduct.get()));
+            System.out.println("PATCH Service - Product List: " + getAllProductsFromRepo());
+            return true;
+        } else {
+            System.out.println("PATCH Service - Product List: " + getAllProductsFromRepo());
+            return false;
+        }
+    }
+
+    @Override
+    public Long addProduct(ProductDto newProduct) {
+        Product product = productRepository.save(mapProductDtoToProduct(newProduct));
+        System.out.println("ADD Service - Product: " + product);
+        return product.getId();
+    }
+
+    @Override
+    public void addAllProducts(List<ProductDto> productDtoList) {
+        List<Product> productList = productDtoList
                 .stream()
-                .filter(product -> product.getId() == id)
+                .map(this::mapProductDtoToProduct)
                 .toList();
-        assertEquals(1, filteredProducts.size());
-        System.out.println("GET Service - Product: " + filteredProducts.get(0));
-        return filteredProducts.get(0);
-    }
-
-    @Override
-    public boolean replaceProduct(Product newProduct) {
-        Optional<Product> filteredProduct = productList
-                .stream()
-                .filter(product -> Objects.equals(product.getId(), newProduct.getId()))
-                .findFirst();
-        if (filteredProduct.isPresent()) {
-            int index = productList.indexOf(filteredProduct.get());
-            productList.set(index, newProduct);
-            System.out.println("PATCH Service - Product List: " + productList);
-            return true;
-        } else {
-            System.out.println("PATCH Service - Product List: " + productList);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean updateProduct(Product newProduct) {
-        Optional<Product> filteredProduct = productList
-                .stream()
-                .filter(product -> Objects.equals(product.getId(), newProduct.getId()))
-                .findFirst();
-        if (filteredProduct.isPresent()) {
-            filteredProduct.get().setName(newProduct.getName());
-            System.out.println("UPDATE Service - Product List: " + productList);
-            return true;
-        } else {
-            productList.add(newProduct);
-            System.out.println("UPDATE Service - Product List: " + productList);
-            return false;
-        }
-    }
-
-    @Override
-    public Long addProduct(Product newProduct) {
-        newProduct.setId(getLastElementId(productList) + 1L);
-        productList.add(newProduct);
-        System.out.println("ADD Service - Product List: " + productList);
-        return newProduct.getId();
+        productRepository.saveAll(productList);
+        System.out.println("ADD ALL Service - Product List: " + productList);
     }
 
     @Override
     public boolean deleteProduct(Long id) {
-        for (Product product : productList) {
-            if (Objects.equals(product.getId(), id)) {
-                productList.remove(product);
-                System.out.println("DELETE Service - Product List: " + productList);
-                return true;
-            }
-        }
-        System.out.println("Product with id " + id + " not deleted");
-        return false;
+        productRepository.deleteById(id);
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        assertTrue(optionalProduct.isEmpty());
+        System.out.println("DELETE Service - Product List: " + getAllProductsFromRepo());
+        return true;
     }
 
-    private Long getLastElementId(List<Product> productList) {
-       return productList.get(productList.size() - 1).getId();
+    private Product mapProductDtoToProduct(ProductDto productDto) {
+        return new Product(productDto.getName(), productDto.getQuantity());
+    }
+
+    private ProductDto mapProductToProductDto(Product product) {
+        return new ProductDto(product.getId(), product.getName(), product.getQuantity());
+    }
+
+    private List<Product> getAllProductsFromRepo() {
+        return productRepository.findAll();
+    }
+
+    private List<ProductDto> mapProductListToProductDtoList(List<Product> productList) {
+        return productList
+                .stream()
+                .map(this::mapProductToProductDto)
+                .toList();
     }
 }

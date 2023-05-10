@@ -1,20 +1,22 @@
 package com.example.springbootrestservices.service;
 
-import com.example.springbootrestservices.model.Product;
+import com.example.springbootrestservices.model.ProductDto;
 
 import java.util.List;
 
 public interface ProductServiceApi {
 
-    List<Product> getAllProducts();
+    List<ProductDto> getAllProducts();
 
-    Product getProduct(long id);
+    ProductDto getProduct(long id);
 
-    boolean replaceProduct(Product product);
+    boolean replaceProduct(ProductDto product);
 
-    boolean updateProduct(Product product);
+    boolean updateProduct(Long id, int quantity);
 
-    Long addProduct(Product product);
+    Long addProduct(ProductDto product);
+
+    void addAllProducts(List<ProductDto> productDtoList);
 
     boolean deleteProduct(Long id);
 }
