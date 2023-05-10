@@ -1,10 +1,10 @@
-package com.example.springbootrestservices.repository;
+package com.example.springbootrestservices.service;
 
 import com.example.springbootrestservices.model.Product;
 
 import java.util.List;
 
-public interface ProductRepositoryApi {
+public interface ProductServiceApi {
 
     List<Product> getAllProducts();
 

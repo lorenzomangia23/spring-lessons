@@ -1,17 +1,17 @@
-package com.example.springbootrestservices.repository;
+package com.example.springbootrestservices.service;
 
 import com.example.springbootrestservices.model.Product;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 import static org.junit.Assert.*;
-@Repository
-public class ProductRepositoryImpl implements ProductRepositoryApi {
+@Service
+public class ProductServiceImpl implements ProductServiceApi {
 
     private final List<Product> productList;
 
-    public ProductRepositoryImpl() {
+    public ProductServiceImpl() {
         productList = new ArrayList<>();
         productList.add(new Product(1L, "Water"));
         productList.add(new Product(2L, "Beer"));
