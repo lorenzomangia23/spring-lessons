@@ -17,7 +17,7 @@ public class ProductController {
         return productServiceApi.getAllProducts();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/product/{id}")
     public Product getProduct(@PathVariable(value = "id") Long id) {
         return productServiceApi.getProduct(id);
     }

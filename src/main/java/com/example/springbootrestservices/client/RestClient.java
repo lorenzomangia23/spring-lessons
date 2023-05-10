@@ -28,7 +28,7 @@ public class RestClient {
 
     public Product getProduct(long id) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/products/" + id))
+                .uri(new URI(BASE_URL + "/product/" + id))
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

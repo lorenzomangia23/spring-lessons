@@ -13,12 +13,13 @@ public class ProductServiceImpl implements ProductServiceApi {
 
     public ProductServiceImpl() {
         productList = new ArrayList<>();
-        productList.add(new Product(1L, "Water"));
-        productList.add(new Product(2L, "Beer"));
-        productList.add(new Product(3L, "Wine"));
+        productList.add(new Product(1L, "Pane"));
+        productList.add(new Product(2L, "Pasta"));
+        productList.add(new Product(3L, "Formaggio"));
     }
     @Override
     public List<Product> getAllProducts() {
+        System.out.println("GET ALL Service - Product List: " + productList);
         return productList;
     }
 
@@ -29,6 +30,7 @@ public class ProductServiceImpl implements ProductServiceApi {
                 .filter(product -> product.getId() == id)
                 .toList();
         assertEquals(1, filteredProducts.size());
+        System.out.println("GET Service - Product: " + filteredProducts.get(0));
         return filteredProducts.get(0);
     }
 
@@ -41,8 +43,10 @@ public class ProductServiceImpl implements ProductServiceApi {
         if (filteredProduct.isPresent()) {
             int index = productList.indexOf(filteredProduct.get());
             productList.set(index, newProduct);
+            System.out.println("PATCH Service - Product List: " + productList);
             return true;
         } else {
+            System.out.println("PATCH Service - Product List: " + productList);
             return false;
         }
     }
@@ -55,9 +59,11 @@ public class ProductServiceImpl implements ProductServiceApi {
                 .findFirst();
         if (filteredProduct.isPresent()) {
             filteredProduct.get().setName(newProduct.getName());
+            System.out.println("UPDATE Service - Product List: " + productList);
             return true;
         } else {
             productList.add(newProduct);
+            System.out.println("UPDATE Service - Product List: " + productList);
             return false;
         }
     }
@@ -66,6 +72,7 @@ public class ProductServiceImpl implements ProductServiceApi {
     public Long addProduct(Product newProduct) {
         newProduct.setId(getLastElementId(productList) + 1L);
         productList.add(newProduct);
+        System.out.println("ADD Service - Product List: " + productList);
         return newProduct.getId();
     }
 
@@ -74,7 +81,7 @@ public class ProductServiceImpl implements ProductServiceApi {
         for (Product product : productList) {
             if (Objects.equals(product.getId(), id)) {
                 productList.remove(product);
-                System.out.println("Product List after deletion: " + productList);
+                System.out.println("DELETE Service - Product List: " + productList);
                 return true;
             }
         }

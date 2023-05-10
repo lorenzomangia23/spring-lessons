@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class Product implements Comparable{
+public class Product implements Comparable<Product>{
     Long id;
     String name;
 
     public Product(String name) {
         this.name = name;
     }
+    // it's needed to properly deserialize a JSON object to a target entity
     @JsonCreator
     public Product(@JsonProperty("id") Long id, @JsonProperty("name") String name) {
         this.id = id;
@@ -47,8 +48,7 @@ public class Product implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        Product e = (Product) o;
-        return this.getId().compareTo(e.getId());
+    public int compareTo(Product product) {
+        return this.getId().compareTo(product.getId());
     }
 }

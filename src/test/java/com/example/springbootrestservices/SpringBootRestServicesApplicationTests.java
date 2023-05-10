@@ -19,49 +19,49 @@ class SpringBootRestServicesApplicationTests {
 
     @Test
     @Order(1)
-    public void getAllProductsRestClient() throws URISyntaxException, IOException, InterruptedException {
+    public void getAllProducts() throws URISyntaxException, IOException, InterruptedException {
         List<Product> products = restClient.getAllProducts();
-        System.out.println("Products: " + products);
+        System.out.println("GET ALL Test - Product List: " + products);
     }
 
     @Test
     @Order(2)
     public void getProduct() throws URISyntaxException, IOException, InterruptedException {
         Product product = restClient.getProduct(1L);
-        System.out.println("Product: " + product);
+        System.out.println("GET Test - Product: " + product);
     }
 
     @Test
     @Order(3)
     public void replaceProduct() throws URISyntaxException, IOException, InterruptedException {
-        Product product = new Product(3L, "Fanta");
+        Product product = new Product(3L, "Gelato");
         boolean result = restClient.replaceProduct(product);
         if (result) {
-            System.out.println("Product with id " + product.getId() + " replaced");
+            System.out.println("REPLACE Test - Product with id " + product.getId() + " replaced");
         } else {
-            System.out.println("Product with id " + product.getId() + " not present");
+            System.out.println("REPLACE Test - Product with id " + product.getId() + " not present");
         }
     }
 
     @Test
     @Order(4)
     public void updateProduct() throws URISyntaxException, IOException, InterruptedException {
-        Product product = new Product(3L, "Wine");
+        Product product = new Product(3L, "Formaggio");
         boolean result = restClient.updateProduct(product);
         if (result) {
-            System.out.println("Product with id " + product.getId() + " updated");
+            System.out.println("UPDATE Test - Product with id " + product.getId() + " updated");
         } else {
-            System.out.println("Product with id " + product.getId() + " not present");
-            System.out.println("New product created");
+            System.out.println("UPDATE Test - Product with id " + product.getId() + " not present");
+            System.out.println("UPDATE Test - Product created");
         }
     }
 
     @Test
     @Order(5)
     public void addProduct() throws URISyntaxException, IOException, InterruptedException {
-        Product product = new Product("Cola");
+        Product product = new Product("Latte");
         Long productId = restClient.addProduct(product);
-        System.out.println("New product with id " + productId + " created");
+        System.out.println("ADD Test - Product with id " + productId + " created");
     }
 
     @Test
@@ -70,7 +70,7 @@ class SpringBootRestServicesApplicationTests {
         Long productId = 3L;
         boolean isProductDeleted = restClient.deleteProduct(productId);
         if (isProductDeleted) {
-            System.out.println("Product with id " + productId + " deleted");
+            System.out.println("DELETE Test - Product with id " + productId + " deleted");
         }
     }
 
