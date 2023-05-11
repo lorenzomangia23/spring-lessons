@@ -17,32 +17,32 @@ public class ProductController {
         return productServiceApi.getAllProducts();
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/products/{id}")
     public ProductDto getProduct(@PathVariable(value = "id") Long id) {
         return productServiceApi.getProduct(id);
     }
 
-    @PutMapping("/product/replace/")
+    @PutMapping("/products")
     public boolean replaceProduct(@RequestBody ProductDto product) {
         return productServiceApi.replaceProduct(product);
     }
 
-    @PatchMapping("/product/update/{id}/{quantity}")
+    @PatchMapping("/products/{id}/{quantity}")
     public boolean updateProduct(@PathVariable(value = "id") Long id, @PathVariable(value = "quantity") int quantity) {
         return productServiceApi.updateProduct(id, quantity);
     }
 
-    @PostMapping("/product/add")
+    @PostMapping("/products")
     public Long addProduct(@RequestBody ProductDto product) {
         return productServiceApi.addProduct(product);
     }
 
-    @PostMapping("/products/addAll")
+    @PostMapping("/products/all")
     public void addAllProducts(@RequestBody List<ProductDto> productDtoList) {
         productServiceApi.addAllProducts(productDtoList);
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/products/{id}")
     public boolean deleteProduct(@PathVariable Long id) {
         return productServiceApi.deleteProduct(id);
     }

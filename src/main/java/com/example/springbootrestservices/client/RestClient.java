@@ -31,7 +31,7 @@ public class RestClient {
 
     public ProductDto getProduct(long id) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/product/" + id))
+                .uri(new URI(BASE_URL + "/products/" + id))
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -40,7 +40,7 @@ public class RestClient {
 
     public boolean replaceProduct(ProductDto product) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/product/replace/"))
+                .uri(new URI(BASE_URL + "/products"))
                 .headers("Accept", "application/json", "Content-type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(product)))
                 .build();
@@ -50,7 +50,7 @@ public class RestClient {
 
     public boolean updateProduct(Long id, int quantity) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/product/update/" + id + "/" + quantity))
+                .uri(new URI(BASE_URL + "/products/" + id + "/" + quantity))
                 .headers("Accept", "application/json", "Content-type", "application/json")
                 .method("PATCH", HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -60,7 +60,7 @@ public class RestClient {
 
     public Long addProduct(ProductDto product) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/product/add"))
+                .uri(new URI(BASE_URL + "/products"))
                 .headers("Content-type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(product)))
                 .build();
@@ -70,7 +70,7 @@ public class RestClient {
 
     public void addAllProducts(List<ProductDto> productDtoList) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/products/addAll"))
+                .uri(new URI(BASE_URL + "/products/all"))
                 .headers("Content-type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(productDtoList)))
                 .build();
@@ -79,7 +79,7 @@ public class RestClient {
 
     public boolean deleteProduct(Long id) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(BASE_URL + "/product/" + id))
+                .uri(new URI(BASE_URL + "/products/" + id))
                 .DELETE()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
