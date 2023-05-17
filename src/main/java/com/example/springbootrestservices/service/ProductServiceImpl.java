@@ -70,6 +70,7 @@ public class ProductServiceImpl implements ProductServiceApi {
 
     @Override
     public void addAllProducts(List<ProductDto> productDtoList) {
+        productRepository.deleteAll();
         List<Product> productList = productDtoList
                 .stream()
                 .map(this::mapProductDtoToProduct)
