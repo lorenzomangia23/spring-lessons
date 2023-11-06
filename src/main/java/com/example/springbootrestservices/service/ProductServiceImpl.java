@@ -3,6 +3,7 @@ package com.example.springbootrestservices.service;
 import com.example.springbootrestservices.entity.Product;
 import com.example.springbootrestservices.model.ProductDto;
 import com.example.springbootrestservices.repository.ProductRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -10,14 +11,14 @@ import java.util.*;
 import static org.junit.Assert.*;
 @Service
 public class ProductServiceImpl implements ProductServiceApi {
-
+    Logger LOG = Logger.getLogger(ProductServiceImpl.class);
     @Autowired
     ProductRepository productRepository;
 
     @Override
     public List<ProductDto> getAllProducts() {
         List<Product> productList = getAllProductsFromRepo();
-        System.out.println("GET ALL Service - Product List: " + productList);
+        LOG.info("GET ALL Service - Product List: " + productList);
         return mapProductListToProductDtoList(productList);
     }
 
@@ -25,7 +26,7 @@ public class ProductServiceImpl implements ProductServiceApi {
     public ProductDto getProduct(long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(optionalProduct.isPresent()) {
-            System.out.println("GET Service - Product: " + optionalProduct.get());
+            LOG.info("GET Service - Product: " + optionalProduct.get());
             return mapProductToProductDto(optionalProduct.get());
         } else {
             return null;
@@ -39,10 +40,10 @@ public class ProductServiceImpl implements ProductServiceApi {
             Product product = mapProductDtoToProduct(newProduct);
             product.setId(newProduct.getId());
             productRepository.save(product);
-            System.out.println("PUT Service - Product List: " + getAllProductsFromRepo());
+            LOG.info("PUT Service - Product List: " + getAllProductsFromRepo());
             return true;
         } else {
-            System.out.println("PUT Service - Product List: " + getAllProductsFromRepo());
+            LOG.info("PUT Service - Product List: " + getAllProductsFromRepo());
             return false;
         }
     }
@@ -53,10 +54,10 @@ public class ProductServiceImpl implements ProductServiceApi {
         if(optionalProduct.isPresent()) {
             optionalProduct.get().setQuantity(quantity);
             productRepository.save((optionalProduct.get()));
-            System.out.println("PATCH Service - Product List: " + getAllProductsFromRepo());
+            LOG.info("PATCH Service - Product List: " + getAllProductsFromRepo());
             return true;
         } else {
-            System.out.println("PATCH Service - Product List: " + getAllProductsFromRepo());
+            LOG.info("PATCH Service - Product List: " + getAllProductsFromRepo());
             return false;
         }
     }
@@ -64,7 +65,7 @@ public class ProductServiceImpl implements ProductServiceApi {
     @Override
     public Long addProduct(ProductDto newProduct) {
         Product product = productRepository.save(mapProductDtoToProduct(newProduct));
-        System.out.println("ADD Service - Product: " + product);
+        LOG.info("ADD Service - Product: " + product);
         return product.getId();
     }
 
@@ -76,7 +77,7 @@ public class ProductServiceImpl implements ProductServiceApi {
                 .map(this::mapProductDtoToProduct)
                 .toList();
         productRepository.saveAll(productList);
-        System.out.println("ADD ALL Service - Product List: " + productList);
+        LOG.info("ADD ALL Service - Product List: " + productList);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class ProductServiceImpl implements ProductServiceApi {
         productRepository.deleteById(id);
         Optional<Product> optionalProduct = productRepository.findById(id);
         assertTrue(optionalProduct.isEmpty());
-        System.out.println("DELETE Service - Product List: " + getAllProductsFromRepo());
+        LOG.info("DELETE Service - Product List: " + getAllProductsFromRepo());
         return true;
     }
 
