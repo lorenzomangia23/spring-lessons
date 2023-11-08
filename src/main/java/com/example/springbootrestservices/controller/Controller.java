@@ -1,9 +1,9 @@
 package com.example.springbootrestservices.controller;
 
+import com.example.springbootrestservices.model.BikeDto;
 import com.example.springbootrestservices.model.CarDto;
-import com.example.springbootrestservices.model.ProductDto;
 import com.example.springbootrestservices.service.CarServiceApi;
-import com.example.springbootrestservices.service.ProductServiceApi;
+import com.example.springbootrestservices.service.BikeServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +13,19 @@ import java.util.List;
 @RequestMapping("/restexample")
 public class Controller {
     @Autowired
-    ProductServiceApi productServiceApi;
+    BikeServiceApi bikeServiceApi;
 
     @Autowired
     CarServiceApi carServiceApi;
 
-    @GetMapping("${products.base.uri}")
-    public List<ProductDto> getAllProducts() {
-        return productServiceApi.getAllProducts();
+    @GetMapping("${bikes.base.uri}")
+    public List<BikeDto> getAllBikes() {
+        return bikeServiceApi.getAllBikes();
     }
 
-    @GetMapping("${products.uri.id}")
-    public ProductDto getProduct(@PathVariable Long id) {
-        return productServiceApi.getProduct(id);
+    @GetMapping("${bikes.uri.id}")
+    public BikeDto getBike(@PathVariable Long id) {
+        return bikeServiceApi.getBike(id);
     }
 
     @GetMapping("${cars.uri.id}")
@@ -33,24 +33,24 @@ public class Controller {
         return carServiceApi.getCar(id);
     }
 
-    @PutMapping("${products.base.uri}")
-    public boolean replaceProduct(@RequestBody ProductDto product) {
-        return productServiceApi.replaceProduct(product);
-    }
+//    @PutMapping("${bikes.base.uri}")
+//    public boolean replaceProduct(@RequestBody ProductDto product) {
+//        return bikeServiceApi.replaceProduct(product);
+//    }
+//
+//    @PatchMapping("${bikes.uri.update}")
+//    public boolean updateProduct(@PathVariable Long id, @PathVariable int quantity) {
+//        return bikeServiceApi.updateProduct(id, quantity);
+//    }
 
-    @PatchMapping("${products.uri.update}")
-    public boolean updateProduct(@PathVariable Long id, @PathVariable int quantity) {
-        return productServiceApi.updateProduct(id, quantity);
-    }
+//    @PostMapping("${bikes.base.uri}")
+//    public Long addProduct(@RequestBody ProductDto product) {
+//        return bikeServiceApi.addProduct(product);
+//    }
 
-    @PostMapping("${products.base.uri}")
-    public Long addProduct(@RequestBody ProductDto product) {
-        return productServiceApi.addProduct(product);
-    }
-
-    @PostMapping("${products.uri.add.all}")
-    public void addAllProducts(@RequestBody List<ProductDto> productDtoList) {
-        productServiceApi.addAllProducts(productDtoList);
+    @PostMapping("${bikes.uri.add.all}")
+    public void addAllBikes(@RequestBody List<BikeDto> bikeDtoList) {
+        bikeServiceApi.addAllBikes(bikeDtoList);
     }
 
     @PostMapping("${cars.uri.add.all}")
@@ -58,8 +58,8 @@ public class Controller {
         carServiceApi.addAllCars(carDtoList);
     }
 
-    @DeleteMapping("${products.uri.id}")
-    public boolean deleteProduct(@PathVariable Long id) {
-        return productServiceApi.deleteProduct(id);
+    @DeleteMapping("${bikes.uri.id}")
+    public boolean deleteBike(@PathVariable Long id) {
+        return bikeServiceApi.deleteBike(id);
     }
 }

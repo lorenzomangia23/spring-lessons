@@ -1,27 +1,22 @@
-package com.example.springbootrestservices.entity;
+package com.example.springbootrestservices.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-@Table(name = "cars")
-public class Car extends Product{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class BikeDto extends ProductDto{
 
     private String brand;
     private String model;
+
     private String price;
 
-    public Car(String name, int quantity, String brand, String model, String price) {
-        super(name, quantity);
+
+    @JsonCreator
+    public BikeDto(@JsonProperty("id") Long id, @JsonProperty("name") String name, @JsonProperty("quantity") int quantity, @JsonProperty("brand") String brand, @JsonProperty("model") String model, @JsonProperty("price") String price) {
+        super(id, name, quantity);
         this.brand = brand;
         this.model = model;
         this.price = price;
-    }
-
-    public Car() {
     }
 
     public String getBrand() {
@@ -50,18 +45,10 @@ public class Car extends Product{
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "BikeDto{" +
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", price='" + price + '\'' +
                 '}';
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

@@ -3,9 +3,8 @@ package com.example.springbootrestservices.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "cars")
-public class Car extends Product{
-
+@Table(name = "bikes")
+public class Bike extends Product{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,14 +13,14 @@ public class Car extends Product{
     private String model;
     private String price;
 
-    public Car(String name, int quantity, String brand, String model, String price) {
+    public Bike(String name, int quantity, String brand, String model, String price) {
         super(name, quantity);
         this.brand = brand;
         this.model = model;
         this.price = price;
     }
 
-    public Car() {
+    public Bike() {
     }
 
     public String getBrand() {
@@ -50,7 +49,7 @@ public class Car extends Product{
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "Bike{" +
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", price='" + price + '\'' +

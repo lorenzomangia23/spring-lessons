@@ -18,8 +18,8 @@ public class RestClient {
     public static HttpClient client = HttpClient.newBuilder().build();
     ObjectMapper mapper = new ObjectMapper();
 
-    public void initData(List<ProductDto> productDtoList, List<CarDto> defaultCars) throws URISyntaxException, IOException, InterruptedException {
-       addAllProducts(productDtoList);
+    public void initData(List<CarDto> defaultCars) throws URISyntaxException, IOException, InterruptedException {
+//       addAllProducts(productDtoList);
        addCars(defaultCars);
     }
 

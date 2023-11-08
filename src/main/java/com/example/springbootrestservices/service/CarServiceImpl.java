@@ -1,7 +1,6 @@
 package com.example.springbootrestservices.service;
 
 import com.example.springbootrestservices.entity.Car;
-import com.example.springbootrestservices.entity.Product;
 import com.example.springbootrestservices.model.CarDto;
 import com.example.springbootrestservices.repository.CarRepository;
 import com.example.springbootrestservices.util.UtilCommon;
@@ -49,10 +48,10 @@ public class CarServiceImpl extends UtilCommon implements CarServiceApi {
     }
 
     private CarDto mapCarToCarDto(Car car) {
-        return new CarDto(car.getBrand(), car.getModel(), car.getPrice());
+        return new CarDto(car.getId(), car.getName(), car.getQuantity(), car.getBrand(), car.getModel(), car.getPrice());
     }
 
     private Car mapCarToCarDto(CarDto carDto) {
-        return new Car(carDto.getBrand(), carDto.getModel(), carDto.getPrice());
+        return new Car(carDto.getName(), carDto.getQuantity(), carDto.getBrand(), carDto.getModel(), carDto.getPrice());
     }
 }

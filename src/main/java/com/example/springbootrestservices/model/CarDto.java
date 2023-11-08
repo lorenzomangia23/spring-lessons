@@ -3,15 +3,17 @@ package com.example.springbootrestservices.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CarDto {
+public class CarDto extends ProductDto{
 
     private String brand;
     private String model;
 
     private String price;
 
+
     @JsonCreator
-    public CarDto(@JsonProperty("brand") String brand, @JsonProperty("model") String model, @JsonProperty("price") String price) {
+    public CarDto(@JsonProperty("id") Long id, @JsonProperty("name") String name, @JsonProperty("quantity") int quantity, @JsonProperty("brand") String brand, @JsonProperty("model") String model, @JsonProperty("price") String price) {
+        super(id, name, quantity);
         this.brand = brand;
         this.model = model;
         this.price = price;
