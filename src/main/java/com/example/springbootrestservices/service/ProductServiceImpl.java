@@ -3,6 +3,7 @@ package com.example.springbootrestservices.service;
 import com.example.springbootrestservices.entity.Product;
 import com.example.springbootrestservices.model.ProductDto;
 import com.example.springbootrestservices.repository.ProductRepository;
+import com.example.springbootrestservices.util.UtilCommon;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 @Service
-public class ProductServiceImpl implements ProductServiceApi {
+public class ProductServiceImpl extends UtilCommon implements ProductServiceApi {
     Logger LOG = Logger.getLogger(ProductServiceImpl.class);
     @Autowired
     ProductRepository productRepository;
@@ -24,6 +25,7 @@ public class ProductServiceImpl implements ProductServiceApi {
 
     @Override
     public ProductDto getProduct(long id) {
+        checkTextIsPresent();
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(optionalProduct.isPresent()) {
             LOG.info("GET Service - Product: " + optionalProduct.get());
@@ -106,5 +108,10 @@ public class ProductServiceImpl implements ProductServiceApi {
                 .stream()
                 .map(this::mapProductToProductDto)
                 .toList();
+    }
+
+    @Override
+    public String getTextIdentifier() {
+        return "ProductID";
     }
 }

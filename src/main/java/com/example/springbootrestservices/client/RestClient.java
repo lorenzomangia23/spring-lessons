@@ -1,5 +1,6 @@
 package com.example.springbootrestservices.client;
 
+import com.example.springbootrestservices.model.CarDto;
 import com.example.springbootrestservices.model.ProductDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -17,8 +18,18 @@ public class RestClient {
     public static HttpClient client = HttpClient.newBuilder().build();
     ObjectMapper mapper = new ObjectMapper();
 
-    public void initData(List<ProductDto> productDtoList) throws URISyntaxException, IOException, InterruptedException {
+    public void initData(List<ProductDto> productDtoList, List<CarDto> defaultCars) throws URISyntaxException, IOException, InterruptedException {
        addAllProducts(productDtoList);
+       addCars(defaultCars);
+    }
+
+    private void addCars(List<CarDto> defaultCars) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(BASE_URL + APP_CONTEXT + VERSION + "/cars/all"))
+                .headers("Content-type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(defaultCars)))
+                .build();
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     public List<ProductDto> getAllProducts() throws URISyntaxException, IOException, InterruptedException {

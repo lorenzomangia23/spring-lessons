@@ -1,6 +1,8 @@
 package com.example.springbootrestservices.controller;
 
+import com.example.springbootrestservices.model.CarDto;
 import com.example.springbootrestservices.model.ProductDto;
+import com.example.springbootrestservices.service.CarServiceApi;
 import com.example.springbootrestservices.service.ProductServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restexample")
-public class ProductController {
+public class Controller {
     @Autowired
     ProductServiceApi productServiceApi;
+
+    @Autowired
+    CarServiceApi carServiceApi;
 
     @GetMapping("${products.base.uri}")
     public List<ProductDto> getAllProducts() {
@@ -21,6 +26,11 @@ public class ProductController {
     @GetMapping("${products.uri.id}")
     public ProductDto getProduct(@PathVariable Long id) {
         return productServiceApi.getProduct(id);
+    }
+
+    @GetMapping("${cars.uri.id}")
+    public CarDto getCar(@PathVariable Long id) {
+        return carServiceApi.getCar(id);
     }
 
     @PutMapping("${products.base.uri}")
@@ -41,6 +51,11 @@ public class ProductController {
     @PostMapping("${products.uri.add.all}")
     public void addAllProducts(@RequestBody List<ProductDto> productDtoList) {
         productServiceApi.addAllProducts(productDtoList);
+    }
+
+    @PostMapping("${cars.uri.add.all}")
+    public void addAllCars(@RequestBody List<CarDto> carDtoList) {
+        carServiceApi.addAllCars(carDtoList);
     }
 
     @DeleteMapping("${products.uri.id}")
